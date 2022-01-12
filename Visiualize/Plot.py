@@ -11,6 +11,7 @@ class Plot():
         file_list = glob.glob(frontPath+"/*.*")
         file_list.sort(key=lambda s:int(s.split(".")[-1]))
         fronts=list()
+        print(file_list)
         for eachFile in file_list:
             with open(eachFile) as f:
                 lines = f.readlines()
@@ -25,14 +26,15 @@ class Plot():
         fronts = self._read_from_Fronts(frontPath)
         objectives_fronts = []
 
-        for i in range(8):
+        for i in range(6):
             temp = []
             for eachFront in fronts:
                 temp.append(float(eachFront[49][i]))
             objectives_fronts.append(temp)
         plt.figure(figsize=(10, 5))
-        for i in range(8):
-            plt.subplot(2, 4, i + 1)
+        for i in range(6):
+            # plt.subplot(2, 4, i + 1)
+            plt.subplot(2, 3, i + 1)
             plt.scatter(range(len(objectives_fronts[i])), objectives_fronts[i], s=3)
         plt.subplots_adjust(left=0, right=1, wspace=0.3, hspace=0.3)
         plt.tight_layout()
@@ -42,4 +44,4 @@ class Plot():
 if __name__ =="__main__":
     frontPath = sys.argv[1]
     outputPath = sys.argv[2]
-    Plot.plot_all_objectives_in_subplots(frontPath,outputPath)
+    Plot().plot_all_objectives_in_subplots(frontPath,outputPath)
