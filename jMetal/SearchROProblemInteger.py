@@ -17,8 +17,8 @@ class SearchROProblemInteger(IntegerProblem):
         '''
         super(SearchROProblemInteger,self).__init__()
         "8 objectives: QMOOD 6 metrics + highest ownership+# of commiters"
-        self.number_of_objectives = 8
-        # self.number_of_objectives = 6
+        # self.number_of_objectives = 8
+        self.number_of_objectives = 6
         "Length represents chromosome length"
         self.number_of_variables = 4
         # todo: Research on what are contraints for
@@ -63,6 +63,7 @@ class SearchROProblemInteger(IntegerProblem):
                           self.integerEncoding.N]*self.number_of_choromosome
         # self.initial_front= []
         # print(self.upper_bound)
+        self.initial_objectives = Qmood.calculateQmood(self.projectInfo)
 
     def evaluate(self, solution: IntegerSolution) -> IntegerSolution:
         # print(solution.variables)
@@ -87,12 +88,12 @@ class SearchROProblemInteger(IntegerProblem):
 
         minus = -1.0
 
-        solution.objectives[0] = minus * effectiveness
-        solution.objectives[1] = minus * extendibility
-        solution.objectives[2] = minus * flexibility
-        solution.objectives[3] = minus * functionality
-        solution.objectives[4] = minus * resusability
-        solution.objectives[5] = minus * understandability
+        solution.objectives[0] = minus * effectiveness/self.initial_objectives["Effectiveness"]
+        solution.objectives[1] = minus * extendibility/self.initial_objectives["Extendibility"]
+        solution.objectives[2] = minus * flexibility/self.initial_objectives["Flexibility"]
+        solution.objectives[3] = minus * functionality/self.initial_objectives["Functionality"]
+        solution.objectives[4] = minus * resusability/self.initial_objectives["Resusability"]
+        solution.objectives[5] = minus * understandability/self.initial_objectives["Understandability"]
 
         # solution.objectives[0] = minus * effectiveness if effectiveness<0 else effectiveness
         # solution.objectives[1] = minus * extendibility if extendibility<0 else extendibility
@@ -103,11 +104,11 @@ class SearchROProblemInteger(IntegerProblem):
         # print(solution)
 
         # 'calculate ownership on refactoring operations applied files'
-        highestOwnership, numOfCommiters = self.codeOwnership.calculateOwnership(decodedIntegerSequences)
+        # highestOwnership, numOfCommiters = self.codeOwnership.calculateOwnership(decodedIntegerSequences)
         # # print("highestOwnership: ",highestOwnership)
         # # print("numOfCommiters: ",numOfCommiters)
-        solution.objectives[6] = minus * highestOwnership
-        solution.objectives[7] = minus * numOfCommiters
+        # solution.objectives[6] = minus * highestOwnership/self.initial_objectives[0]
+        # solution.objectives[7] = minus * numOfCommiters/self.initial_objectives[0]
 
         # self.initial_solution.append(solution.objectives)
         return solution
