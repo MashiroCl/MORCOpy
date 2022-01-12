@@ -9,3 +9,5 @@ jMetal/solutionObjectives.txt
 Visiualize/.ipynb_checkpoints
 ResultGraph
 .gitignore
+*.pyc
+*.DS_Store
