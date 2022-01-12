@@ -88,12 +88,12 @@ class SearchROProblemInteger(IntegerProblem):
 
         minus = -1.0
 
-        solution.objectives[0] = minus * effectiveness/self.initial_objectives["Effectiveness"]
-        solution.objectives[1] = minus * extendibility/self.initial_objectives["Extendibility"]
-        solution.objectives[2] = minus * flexibility/self.initial_objectives["Flexibility"]
-        solution.objectives[3] = minus * functionality/self.initial_objectives["Functionality"]
-        solution.objectives[4] = minus * resusability/self.initial_objectives["Resusability"]
-        solution.objectives[5] = understandability/self.initial_objectives["Understandability"]
+        solution.objectives[0] = minus * (effectiveness - self.initial_objectives["Effectiveness"])
+        solution.objectives[1] = minus * (extendibility - self.initial_objectives["Extendibility"])
+        solution.objectives[2] = minus * (flexibility - self.initial_objectives["Flexibility"])
+        solution.objectives[3] = minus * (functionality - self.initial_objectives["Functionality"])
+        solution.objectives[4] = minus * (resusability - self.initial_objectives["Resusability"])
+        solution.objectives[5] = understandability - self.initial_objectives["Understandability"]
 
         # solution.objectives[0] = minus * effectiveness if effectiveness<0 else effectiveness
         # solution.objectives[1] = minus * extendibility if extendibility<0 else extendibility
