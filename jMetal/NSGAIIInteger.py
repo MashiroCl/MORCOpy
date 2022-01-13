@@ -4,6 +4,7 @@ from jmetal.operator import IntegerPolynomialMutation
 from jmetal.operator.crossover import IntegerSBXCrossover
 from jmetal.util.solution import get_non_dominated_solutions, print_function_values_to_file, print_variables_to_file
 from jmetal.algorithm.multiobjective import NSGAII
+from jmetal.algorithm.multiobjective import RandomSearch
 from jmetal.util.termination_criterion import StoppingByEvaluations
 from utils import readJson
 from Jxplatform2.jClass import jClass
@@ -44,12 +45,12 @@ for each in load:
 problem = SearchROProblemInteger(jClist,repoPath)
 
 # max_evaluations=5000
-algorithm = NSGAII(
+algorithm = RandomSearch(
     problem=problem,
-    population_size=50,
-    offspring_population_size=50,
-    mutation=IntegerPolynomialMutation(probability=0.15),
-    crossover=IntegerSBXCrossover(probability=0.8),
+    # population_size=50,
+    # offspring_population_size=50,
+    # mutation=IntegerPolynomialMutation(probability=0.15),
+    # crossover=IntegerSBXCrossover(probability=0.8),
     termination_criterion=StoppingByEvaluations(max_evaluations=int(max_evaluations))
 )
 # algorithm.observable.register(observer=PlotFrontToFileObserver('dynamic_front_vis'))
