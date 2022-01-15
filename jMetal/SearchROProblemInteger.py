@@ -36,14 +36,6 @@ class SearchROProblemInteger(IntegerProblem):
                              self.MAXIMIZE,
                              self.MAXIMIZE,
                              self.MAXIMIZE]
-        # self.obj_directions=[self.MINIMIZE,
-        #                      self.MINIMIZE,
-        #                      self.MINIMIZE,
-        #                      self.MINIMIZE,
-        #                      self.MINIMIZE,
-        #                      self.MINIMIZE,
-        #                      self.MINIMIZE,
-        #                      self.MINIMIZE]
         self.obj_labels=['Effectiveness',
                          'Extendibility',
                          'Flexibility',
@@ -61,8 +53,6 @@ class SearchROProblemInteger(IntegerProblem):
                           self.integerEncoding.classNum,
                           self.integerEncoding.classNum,
                           self.integerEncoding.N]*self.number_of_choromosome
-        # self.initial_front= []
-        # print(self.upper_bound)
         self.initial_objectives = Qmood().calculateQmood(self.projectInfo)
 
     def evaluate(self, solution: IntegerSolution) -> IntegerSolution:
@@ -73,37 +63,24 @@ class SearchROProblemInteger(IntegerProblem):
 
         projectInfo = copy.deepcopy(self.projectInfo)
         for each in decodedIntegerSequences:
-            # print("Refactoring Operation: ", each)
             dispatch(each["ROType"].value)(each, projectInfo)
 
         'calculate QMOOD  after executed refactoring operations'
 
         qmood_metrics_value = Qmood().calculateQmood(projectInfo)
-        # effectiveness = qmood.getEffectiveness()
-        # extendibility = qmood.getExtendibility()
-        # flexibility = qmood.getFlexibility()
-        # functionality = qmood.getFunctionality()
-        # resusability = qmood.getResusability()
-        # understandability = qmood.getUnderstandability()
 
         minus = -1.0
         qmood_metrics_list = ["Effectiveness","Extendibility","Flexibility","Functionality","Resusability","Understandability"]
-        solution.objectives[0] = minus*(qmood_metrics_value[metric]- self.initial_objectives[metric] for metric in qmood_metrics_list)
-        # solution.objectives[0] = minus * (effectiveness - self.initial_objectives["Effectiveness"])
-        # solution.objectives[1] = minus * (extendibility - self.initial_objectives["Extendibility"])
-        # solution.objectives[2] = minus * (flexibility - self.initial_objectives["Flexibility"])
-        # solution.objectives[3] = minus * (functionality - self.initial_objectives["Functionality"])
-        # solution.objectives[4] = minus * (resusability - self.initial_objectives["Resusability"])
-        # solution.objectives[5] = minus * (understandability - self.initial_objectives["Understandability"])
+        solution.objectives[0] = minus*(sum([qmood_metrics_value[metric]- self.initial_objectives[metric] for metric in qmood_metrics_list]))
 
-        # 'calculate ownership on refactoring operations applied files'
+
+        'calculate ownership on refactoring operations applied files'
         highestOwnership, numOfCommiters = self.codeOwnership.calculateOwnership(decodedIntegerSequences)
         # print("highestOwnership: ",highestOwnership)
         # # print("numOfCommiters: ",numOfCommiters)
         solution.objectives[1] = minus * highestOwnership
         # solution.objectives[7] = minus * numOfCommiters/self.initial_objectives[0]
 
-        # self.initial_solution.append(solution.objectives)
         return solution
 
     def create_solution(self) -> IntegerSolution:
@@ -115,7 +92,6 @@ class SearchROProblemInteger(IntegerProblem):
         newSolution.variables = \
             [int(random.uniform(self.lower_bound[i] * 1.0, self.upper_bound[i] * 1.0))
              for i in range(self.number_of_variables*self.number_of_choromosome)]
-        # self.initial_front.append(self.evaluate(newSolution))
         return newSolution
 
     def get_name(self) -> str:
