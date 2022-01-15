@@ -113,6 +113,7 @@ class Qmood():
     def getEffectiveness(self):
         return self.Effectiveness
 
+
 if __name__=="__main__":
     print("test Qmood calculation")
     qmood=Qmood()

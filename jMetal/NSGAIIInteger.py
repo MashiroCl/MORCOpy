@@ -39,40 +39,25 @@ load = readJson(jsonFile)
 jClist = []
 for each in load:
     jClist.append(jClass(load=each))
-# print(jClist)
 
 problem = SearchROProblemInteger(jClist,repoPath)
 
 # max_evaluations=5000
 algorithm = NSGAII(
     problem=problem,
-    population_size=50,
-    offspring_population_size=50,
-    mutation=IntegerPolynomialMutation(probability=0.15),
+    population_size=200,
+    offspring_population_size=200,
+    mutation=IntegerPolynomialMutation(probability=1/problem.number_of_variables),
     crossover=IntegerSBXCrossover(probability=0.8),
     termination_criterion=StoppingByEvaluations(max_evaluations=int(max_evaluations))
 )
-# algorithm.observable.register(observer=PlotFrontToFileObserver('dynamic_front_vis'))
-# algorithm.observable.rfegister(observer=WriteFrontToFileObserver('dynamic_front'))
-# algorithm.observable.register(observer=WriteFrontToFileObserver(output_directory="/Users/leichen/Code/pythonProject/pythonProject/salabResearch/jMetal/FrontData"))
 algorithm.observable.register(observer=BasicObserver())
-# algorithm.observable.register(observer=ProgressBarObserver(max=max_evaluations))
 algorithm.observable.register(observer=WriteFrontToFileObserver(
     output_directory=outputPath+repoName+"/front"))
+
 algorithm.run()
 
 front = algorithm.get_result()
-# solutionObjectives = "/Users/leichen/Code/pythonProject/pythonProject/salabResearch/jMetal/solutionObjectives.txt"
-# with open(solutionObjectives,"w") as f:
-#     json.dump(problem.mySolutions,f)
-
-
-# problem.reference_front = problem.initial_front
-# plot_front = Plot(title='Pareto front approximation'
-#                   , axis_labels=problem.obj_labels
-#                   , reference_front=problem.reference_front)
-# plot_front.plot(front, label='NSGAII', filename=algorithm.get_name())
-
 
 # save to files
 print_function_values_to_file(front, outputPath+repoName+'/FUN.NSGAII.SearchRO')

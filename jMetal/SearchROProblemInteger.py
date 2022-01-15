@@ -18,7 +18,7 @@ class SearchROProblemInteger(IntegerProblem):
         super(SearchROProblemInteger,self).__init__()
         "8 objectives: QMOOD 6 metrics + highest ownership+# of commiters"
         # self.number_of_objectives = 8
-        self.number_of_objectives = 6
+        self.number_of_objectives = 2
         "Length represents chromosome length"
         self.number_of_variables = 4
         # todo: Research on what are contraints for
@@ -77,37 +77,30 @@ class SearchROProblemInteger(IntegerProblem):
             dispatch(each["ROType"].value)(each, projectInfo)
 
         'calculate QMOOD  after executed refactoring operations'
-        qmood = Qmood()
-        qmood.calculateQmood(projectInfo)
-        effectiveness = qmood.getEffectiveness()
-        extendibility = qmood.getExtendibility()
-        flexibility = qmood.getFlexibility()
-        functionality = qmood.getFunctionality()
-        resusability = qmood.getResusability()
-        understandability = qmood.getUnderstandability()
+
+        qmood_metrics_value = Qmood().calculateQmood(projectInfo)
+        # effectiveness = qmood.getEffectiveness()
+        # extendibility = qmood.getExtendibility()
+        # flexibility = qmood.getFlexibility()
+        # functionality = qmood.getFunctionality()
+        # resusability = qmood.getResusability()
+        # understandability = qmood.getUnderstandability()
 
         minus = -1.0
-
-        solution.objectives[0] = minus * (effectiveness - self.initial_objectives["Effectiveness"])
-        solution.objectives[1] = minus * (extendibility - self.initial_objectives["Extendibility"])
-        solution.objectives[2] = minus * (flexibility - self.initial_objectives["Flexibility"])
-        solution.objectives[3] = minus * (functionality - self.initial_objectives["Functionality"])
-        solution.objectives[4] = minus * (resusability - self.initial_objectives["Resusability"])
-        solution.objectives[5] = minus * (understandability - self.initial_objectives["Understandability"])
-
-        # solution.objectives[0] = minus * effectiveness if effectiveness<0 else effectiveness
-        # solution.objectives[1] = minus * extendibility if extendibility<0 else extendibility
-        # solution.objectives[2] = minus * flexibility if flexibility<0 else flexibility
-        # solution.objectives[3] = minus * functionality if functionality<0 else functionality
-        # solution.objectives[4] = minus * resusability if resusability<0 else resusability
-        # solution.objectives[5] = minus * understandability if understandability<0 else understandability
-        # print(solution)
+        qmood_metrics_list = ["Effectiveness","Extendibility","Flexibility","Functionality","Resusability","Understandability"]
+        solution.objectives[0] = minus*(qmood_metrics_value[metric]- self.initial_objectives[metric] for metric in qmood_metrics_list)
+        # solution.objectives[0] = minus * (effectiveness - self.initial_objectives["Effectiveness"])
+        # solution.objectives[1] = minus * (extendibility - self.initial_objectives["Extendibility"])
+        # solution.objectives[2] = minus * (flexibility - self.initial_objectives["Flexibility"])
+        # solution.objectives[3] = minus * (functionality - self.initial_objectives["Functionality"])
+        # solution.objectives[4] = minus * (resusability - self.initial_objectives["Resusability"])
+        # solution.objectives[5] = minus * (understandability - self.initial_objectives["Understandability"])
 
         # 'calculate ownership on refactoring operations applied files'
-        # highestOwnership, numOfCommiters = self.codeOwnership.calculateOwnership(decodedIntegerSequences)
-        # # print("highestOwnership: ",highestOwnership)
+        highestOwnership, numOfCommiters = self.codeOwnership.calculateOwnership(decodedIntegerSequences)
+        # print("highestOwnership: ",highestOwnership)
         # # print("numOfCommiters: ",numOfCommiters)
-        # solution.objectives[6] = minus * highestOwnership/self.initial_objectives[0]
+        solution.objectives[1] = minus * highestOwnership
         # solution.objectives[7] = minus * numOfCommiters/self.initial_objectives[0]
 
         # self.initial_solution.append(solution.objectives)
