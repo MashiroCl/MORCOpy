@@ -1,11 +1,11 @@
-# MORCoRE
+# MORCoRA
 
-MORCoRE is search-based refactoring tool for recommending refactoring operations towards a target repository snapshot.
+MORCoRA is search-based refactoring tool for recommending refactoring operations towards a target repository snapshot.
 
 It based on multi-objective evolutionary algorithm (MOEA), the refactorings recommended achieve 3 objectives:
 1. Improving code quality
 2. Preserving semantic coherence
-3. Require low review effort
+3. Preserving high review availability
 
 
 ## Requirement
@@ -24,13 +24,13 @@ note: you can find jmetalpy [here](https://github.com/jMetal/jMetalPy), download
 
 2. **Creating a personal access token**
 
-MORCoRE uses the GitHub API, it needs the personal access token to extract pull requests.
+MORCoRA uses the GitHub API, it needs the personal access token to extract pull requests.
 
 For how to get personal access token, please refer to [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
 3. **Set the token as a environment variable**
 
-After you get the token, set it as an environment variable, and named the variable as **MORCoRE**
+After you get the token, set it as an environment variable, and named the variable as **MORCORE**
 
 For MacOS:
 ```
@@ -62,3 +62,22 @@ The extracted data are stored in `<repo_path>/MORCoRE/`
 $ python3 command.py -n <repo_name> -i <max_evaluation_number> -p customize -m search_customize
 ```
 
+
+## Publications
+The following article include the details of MORCoRA.
+
+Lei Chen, Shinpei Hayashi. [MORCoRA: Multi-Objective Refactoring Recommendation Considering Review Availability](https://www.worldscientific.com/doi/10.1142/S0218194024500438).International Journal of Software Engineering and Knowledge Engineering, vol. 34, no. 12, pp. 1919-1947. dec, 2024. 
+
+📖 [Read on arXiv](https://arxiv.org/abs/2408.06568)
+
+```
+@article{
+  title={An Empirical Study on the Impact of Change Granularity in Refactoring Detection},
+  author={Chen, Lei and Hayashi, Shinpei},
+  journal={Journal of Systems and Software},
+  number={12},
+  pages={1919--1947},
+  volume={34},
+  year={2024},
+}
+```
