@@ -73,11 +73,11 @@ Lei Chen, Shinpei Hayashi. [MORCoRA: Multi-Objective Refactoring Recommendation 
 ```
 @article{
   title={An Empirical Study on the Impact of Change Granularity in Refactoring Detection},
-  author={Chen, Lei and Hayashi, Shinpei},
   journal={Journal of Systems and Software},
-  number={12},
-  pages={1919--1947},
-  volume={34},
-  year={2024},
+  volume = {231},
+  pages = {112608},
+  year = {2026},
+  issn = {0164-1212},
+  author = {Lei Chen and Shinpei Hayashi},
 }
 ```
